@@ -87,7 +87,9 @@ export default function register($app) {
 
 async function downloadSubscription(req, res) {
     const { name } = req.params;
-    const isShareRoute = req.path?.startsWith('/share/');
+    const isShareRoute = String(req.route?.path ?? req.path ?? '')
+        .toLowerCase()
+        .startsWith('/share/');
     if (
         isShareRoute &&
         !req.query?._fakeNode &&
@@ -510,7 +512,9 @@ async function downloadSubscription(req, res) {
 async function downloadCollection(req, res) {
     const { name } = req.params;
     if (
-        req.path?.startsWith('/share/') &&
+        String(req.route?.path ?? req.path ?? '')
+            .toLowerCase()
+            .startsWith('/share/') &&
         !consumeShareTokenForRequest(req, 'col')
     ) {
         failed(
