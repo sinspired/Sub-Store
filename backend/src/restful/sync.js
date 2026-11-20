@@ -475,7 +475,7 @@ async function produceArtifact({
                 { [sub.name]: sub },
                 $options,
                 sourceRaw,
-                { noFlow: skipFlow },
+                { noFlow: skipFlow, mutateInPlace: true },
             );
             if (proxies.length === 0) {
                 throw new Error(`订阅 ${name} 中不含有效节点`);
@@ -695,7 +695,10 @@ async function produceArtifact({
                             },
                             undefined,
                             currentRaw,
-                            { noFlow: skipFlow || sub.noFlow },
+                            {
+                                noFlow: skipFlow || sub.noFlow,
+                                mutateInPlace: true,
+                            },
                         );
                         results[name] = currentProxies;
                         rawResults[name] = currentRaw;
@@ -800,7 +803,7 @@ async function produceArtifact({
                 { _collection: collection },
                 $options,
                 rawResults,
-                { noFlow: skipFlow },
+                { noFlow: skipFlow, mutateInPlace: true },
             );
             if (proxies.length === 0) {
                 throw new Error(`组合订阅 ${name} 中不含有效节点`);
